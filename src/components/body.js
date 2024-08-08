@@ -5,7 +5,8 @@ import Shimmer from "./shimmer";
 const Body = () => {
     // Local state variable
     const [ListOfrestaurants, setListOfRestaurant] = useState([]);
-    const [searchText,setSearchtext]=useState();
+    const [filteredRestaurant,setFilteredRestaurant]=useState([]);  
+    const [searchText,setSearchtext]=useState('');
 
     useEffect(() => {
         fetchData();
@@ -20,6 +21,7 @@ const Body = () => {
             const json = await response.json();
             console.log(json);
             setListOfRestaurant(json?.data?.success?.cards[2]?.gridWidget?.gridElements?.infoWithStyle?.restaurants || []);
+            setFilteredRestaurant(json?.data?.success?.cards[2]?.gridWidget?.gridElements?.infoWithStyle?.restaurants || []);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -42,8 +44,8 @@ const Body = () => {
                     <button
                     onClick={()=>{
                      const filteredList=ListOfrestaurants.filter(
-                            (res)=>res.data.restaurant.name.include(searchText))
-                            setListOfRestaurant(filteredList)
+                            (res)=>res?.info?.name.toLowerCase().includes(searchText.toLowerCase()))
+                            setFilteredRestaurant(filteredList)
                     }}
                     
                     
@@ -58,13 +60,12 @@ const Body = () => {
                 }}>Top Rated Restaurant</button>
             </div>
             <div className='res-container'>
-                {ListOfrestaurants.length > 0 ? (
-                    ListOfrestaurants.map(restaurant => (
+                { 
+                    filteredRestaurant.map(restaurant => (
                         <RestaurantCard key={restaurant.info.id} resData={restaurant} />
                     ))
-                ) : (
-                    <Shimmer/>
-                )}
+                
+                }
             </div>
         </div>
     );
