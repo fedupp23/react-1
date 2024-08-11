@@ -49,3 +49,6 @@
 .filter{
     display: flex;
 }
+.list-item{
+    list-style-type:none
+}
