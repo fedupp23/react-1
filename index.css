@@ -52,3 +52,7 @@
 .list-item{
     list-style-type:none
 }
+.user-card{
+    padding:10px;
+    border:1px solid black;
+}
