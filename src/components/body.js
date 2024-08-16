@@ -2,6 +2,7 @@ import RestaurantCard from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import Shimmer from "./shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
     // Local state variable
@@ -27,6 +28,12 @@ const Body = () => {
             console.error('Error fetching data:', error);
         }
     };
+    const onlineStatus=useOnlineStatus();
+    if(onlineStatus===false){
+        return(
+            <h1>please check ur internet connectivity</h1>
+        )
+    }
 
 //conditional rendering
     // if (ListOfrestaurants.length === 0) {
